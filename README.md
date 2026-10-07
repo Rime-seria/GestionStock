@@ -1,3 +1,2 @@
 ## Equipe:
-- Seria Rime : class produit(A)
-- Sara Zbida
+- Sara Zbida : classe Stock (B)
