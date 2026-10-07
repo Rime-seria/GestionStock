@@ -40,13 +40,23 @@ class Produit
         return $this->quantite;
     }
     public function ajouterQuantite(int $n): void
-{
-    if ($n <= 0) {
-        throw new InvalidArgumentException(
-            "La quantité à ajouter doit être positive."
-        );
-    }
+    {
+        if ($n <= 0) {
+            throw new InvalidArgumentException(
+                "La quantité à ajouter doit être positive."
+            );
+        }
 
     $this->quantite += $n;
-}
+    }
+    public function retirerQuantite(int $n): void
+    {
+        if ($n > $this->quantite) {
+            throw new InvalidArgumentException(
+                "Stock insuffisant."
+            );
+        }
+
+        $this->quantite -= $n;
+    }
 }

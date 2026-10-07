@@ -15,3 +15,17 @@ try {
 } catch (InvalidArgumentException $e) {
     verifier(true, 'Une quantité nulle lève une exception');
 }
+
+$p->retirerQuantite(3);
+
+verifier(
+    $p->getQuantite() === 12,
+    'Après retrait de 3, la quantité est 12'
+);
+
+try {
+    $p->retirerQuantite(20);
+    verifier(false, 'Un retrait supérieur au stock doit lever une exception');
+} catch (InvalidArgumentException $e) {
+    verifier(true, 'Un stock insuffisant lève une exception');
+}
