@@ -39,4 +39,14 @@ class Produit
     {
         return $this->quantite;
     }
+    public function ajouterQuantite(int $n): void
+{
+    if ($n <= 0) {
+        throw new InvalidArgumentException(
+            "La quantité à ajouter doit être positive."
+        );
+    }
+
+    $this->quantite += $n;
+}
 }
