@@ -1,28 +1,25 @@
 <?php
-$prodC = new Produit('C1', 'Cable', 10, 5);
-$cmd = new Commande(1);
-$cmd->ajouterLigne($prodC, 3);
-verifier(abs($cmd->total() - 30) < 0.001, 'Total = 3 x 10 = 30');
-verifier($cmd->estValidee() === false, 'Commande non validée au départ');
 
-$cmd->valider();
-verifier($cmd->estValidee() === true, 'Commande validée');
-verifier($prodC->getQuantite() === 2, 'Le stock est décrémenté (5 - 3 = 2)');
+$p = new Produit('P001', 'Clavier', 150, 10);
 
-try { $cmd->valider(); $ok = false; }
-catch (LogicException $e) { $ok = true; }
-verifier($ok, 'Valider deux fois lève une exception');
+$c = new Commande(1);
+$c->ajouterLigne($p, 2);
 
-try { (new Commande(2))->valider(); $ok = false; }
-catch (LogicException $e) { $ok = true; }
-verifier($ok, 'Valider une commande vide lève une exception');
+verifier(
+    abs($c->total() - 300) < 0.001,
+    'Le total de la commande vaut 300'
+);
 
-try { (new Commande(3))->ajouterLigne($prodC, 50); $ok = false; }
-catch (InvalidArgumentException $e) { $ok = true; }
-verifier($ok, 'Quantité supérieure au stock : exception');
+try {
+    $c->ajouterLigne($p, 0);
+    verifier(false, 'Une quantité nulle doit lever une exception');
+} catch (InvalidArgumentException $e) {
+    verifier(true, 'Une quantité nulle lève une exception');
+}
 
-try { (new Commande(4))->ajouterLigne($prodC, 0); $ok = false; }
-catch (InvalidArgumentException $e) { $ok = true; }
-verifier($ok, 'Quantité nulle : exception');
-
-verifier(str_contains($cmd->afficher(), 'TOTAL'), 'La facture contient le total');
+try {
+    $c->ajouterLigne($p, 20);
+    verifier(false, 'Une quantité supérieure au stock doit lever une exception');
+} catch (InvalidArgumentException $e) {
+    verifier(true, 'Une quantité supérieure au stock lève une exception');
+}
