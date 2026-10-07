@@ -1,3 +1,2 @@
 ## Equipe:
-- Seria Rime
-- Sara Zbida
+- Sara Zbida : classe Stock (B)
