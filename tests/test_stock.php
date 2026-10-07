@@ -34,3 +34,24 @@ verifier(
     abs($stock->valeurTotale() - 3500) < 0.001,
     'La valeur totale du stock vaut 3500'
 );
+
+$ruptures = $stock->produitsEnRupture();
+
+verifier(
+    count($ruptures) === 1 && $ruptures[0]->getReference() === 'P002',
+    'La souris est détectée comme produit en rupture'
+);
+
+$sousSeuil = $stock->produitsSousSeuil(3);
+
+verifier(
+    count($sousSeuil) === 2,
+    'Deux produits ont une quantité inférieure à 3'
+);
+
+try {
+    $stock->ajouter(new Produit('P001', 'Autre clavier', 200, 5));
+    verifier(false, 'Une référence dupliquée doit lever une exception');
+} catch (InvalidArgumentException $e) {
+    verifier(true, 'Une référence dupliquée lève une exception');
+}
