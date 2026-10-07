@@ -63,4 +63,24 @@ class Commande
     {
         return $this->validee;
     }
+
+    public function afficher(): string
+    {
+        $affichage = "Commande n°{$this->numero}\n";
+
+        foreach ($this->lignes as $ligne) {
+            $produit = $ligne['produit'];
+            $quantite = $ligne['quantite'];
+            $montant = $produit->getPrix() * $quantite;
+
+            $affichage .= sprintf(
+                "%s x %d : %.2f\n",
+                $produit->getNom(),
+                $quantite,
+                $montant
+            );
+        }
+
+        return $affichage . sprintf("TOTAL : %.2f", $this->total());
+    }
 }

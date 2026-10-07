@@ -57,3 +57,18 @@ try {
 } catch (LogicException $e) {
     verifier(true, 'Valider une commande vide lève une exception');
 }
+
+$affichage = $commandeAValider->afficher();
+
+verifier(
+    str_contains($affichage, 'Commande n°2'),
+    'L’affichage contient le numéro de la commande'
+);
+verifier(
+    str_contains($affichage, 'Souris x 3 : 150.00'),
+    'L’affichage contient les lignes de la commande'
+);
+verifier(
+    str_contains($affichage, 'TOTAL : 150.00'),
+    'L’affichage contient le total de la commande'
+);
