@@ -30,7 +30,7 @@ class Stock
     {
         $total = 0.0;
         foreach ($this->produits as $p) {
-            $total += $p->valeurStock();
+            $total += $p->getPrix();
         }
         return $total;
     }
