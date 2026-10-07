@@ -4,6 +4,8 @@ class Commande
 {
     private int $numero;
     private array $lignes = [];
+    private bool $validee = false;
+
     public function __construct(int $numero)
     {
         $this->numero = $numero;
@@ -38,5 +40,27 @@ class Commande
         }
 
         return $total;
+    }
+
+    public function valider(): void
+    {
+        if ($this->validee) {
+            throw new LogicException("La commande est déjà validée.");
+        }
+
+        if ($this->lignes === []) {
+            throw new LogicException("Une commande vide ne peut pas être validée.");
+        }
+
+        foreach ($this->lignes as $ligne) {
+            $ligne['produit']->retirerQuantite($ligne['quantite']);
+        }
+
+        $this->validee = true;
+    }
+
+    public function estValidee(): bool
+    {
+        return $this->validee;
     }
 }

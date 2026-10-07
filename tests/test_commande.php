@@ -23,3 +23,37 @@ try {
 } catch (InvalidArgumentException $e) {
     verifier(true, 'Une quantité supérieure au stock lève une exception');
 }
+
+$produitAValider = new Produit('P002', 'Souris', 50, 5);
+$commandeAValider = new Commande(2);
+$commandeAValider->ajouterLigne($produitAValider, 3);
+
+verifier(
+    $commandeAValider->estValidee() === false,
+    'Une commande est initialement non validée'
+);
+
+$commandeAValider->valider();
+
+verifier(
+    $commandeAValider->estValidee() === true,
+    'La commande est validée'
+);
+verifier(
+    $produitAValider->getQuantite() === 2,
+    'La validation décrémente le stock'
+);
+
+try {
+    $commandeAValider->valider();
+    verifier(false, 'Valider deux fois doit lever une exception');
+} catch (LogicException $e) {
+    verifier(true, 'Valider deux fois lève une exception');
+}
+
+try {
+    (new Commande(3))->valider();
+    verifier(false, 'Valider une commande vide doit lever une exception');
+} catch (LogicException $e) {
+    verifier(true, 'Valider une commande vide lève une exception');
+}
