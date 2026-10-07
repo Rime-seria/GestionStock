@@ -1,3 +1,3 @@
 ## Equipe:
-- Seria Rime
+- Seria Rime : class produit(A)
 - Sara Zbida
